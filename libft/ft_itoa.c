@@ -12,8 +12,6 @@
 
 #include "libft.h"
 
-#include "libft.h"
-
 int	check_len(long long n)
 {
 	int	i;
