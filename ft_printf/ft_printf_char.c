@@ -27,7 +27,6 @@ int	ft_printf_str(const char *str)
 			return (-1);
 		return (6);
 	}
-
 	len = 0;
 	while (str[len] != '\0')
 	{
