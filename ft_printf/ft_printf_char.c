@@ -15,24 +15,25 @@
 int	ft_printf_char(char c)
 {
 	write(1, &c, 1);
-	return (1);
 }
 
-int	ft_printf_str(char *str)
+int	ft_printf_str(const char *str)
 {
-	int	i;
+	int	len;
 
-	i = 0;
-	while (str[i] != '\0')
+	if (str[len] == '\0')
 	{
-		write(1, &str[i], 1);
-		i++;
+		if (write(1, "(null)", 6) == -1)
+			return (-1);
+		return (6);
 	}
-	return (i);
-}
 
-int	ft_printf_percent(void)
-{
-	write(1, "%", 1);
-	return (1);
+	len = 0;
+	while (str[len] != '\0')
+	{
+		if (write(1, &str[len], 1) == -1)
+			return (-1);
+		len++;
+	}
+	return (len);
 }

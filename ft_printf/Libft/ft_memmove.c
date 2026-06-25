@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.hex.c                                    :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/25 11:30:29 by honam             #+#    #+#             */
-/*   Updated: 2026/06/25 12:05:13 by honam            ###   ########.fr       */
+/*   Created: 2026/05/08 17:59:38 by honam             #+#    #+#             */
+/*   Updated: 2026/05/09 17:59:50 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf_hex(unsigned int n, char type)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	int		len;
-	char	*base;
-	int		temp;
-	int		idx;
+	char		*d;
+	const char	*s;
+	size_t		i;
 
-	idx = 0;
-	len = 0;
-	if (type == 'X')
-		base = "0123456789ABCDEF";
-	else
-		base = "0123456789abcdef";
-	if (n > 15)
+	d = (char *)dest;
+	s = (const char *)src;
+	i = 0;
+	if (d <= s)
 	{
-		temp = ft_pritnf_hex(n / 16, type);
-		if (temp == -1)
-			return (-1);
-		len += temp;
+		while (n--)
+		{
+			d[i] = s[i];
+			i++;
+		}
 	}
-	if (write(1, &base[idx], 1) == -1)
-		return (-1);
-	len++;
-	return (len);
+	else
+	{
+		i = n;
+		while (i--)
+		{
+			d[i] = s[i];
+		}
+	}
+	return (dest);
 }
-
-int	ft_printf_ptr(void *p);

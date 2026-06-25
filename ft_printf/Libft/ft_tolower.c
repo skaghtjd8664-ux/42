@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.hex.c                                    :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/25 11:30:29 by honam             #+#    #+#             */
-/*   Updated: 2026/06/25 12:05:13 by honam            ###   ########.fr       */
+/*   Created: 2026/05/08 17:59:38 by honam             #+#    #+#             */
+/*   Updated: 2026/05/09 14:41:16 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf_hex(unsigned int n, char type)
+int	ft_tolower(int c)
 {
-	int		len;
-	char	*base;
-	int		temp;
-	int		idx;
-
-	idx = 0;
-	len = 0;
-	if (type == 'X')
-		base = "0123456789ABCDEF";
-	else
-		base = "0123456789abcdef";
-	if (n > 15)
+	if ((c >= 'A' && c <= 'Z'))
 	{
-		temp = ft_pritnf_hex(n / 16, type);
-		if (temp == -1)
-			return (-1);
-		len += temp;
+		return (c + 32);
 	}
-	if (write(1, &base[idx], 1) == -1)
-		return (-1);
-	len++;
-	return (len);
+	else
+	{
+		return (c);
+	}
 }
-
-int	ft_printf_ptr(void *p);
