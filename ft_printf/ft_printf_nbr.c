@@ -14,28 +14,40 @@
 
 int	ft_printf_int(int n)
 {
-	char	*str;
+	long	num;
 	int		len;
+	int		ret;
 
-	str = ft_itoa(n);
-	if (str == NULL)
-		return (-1);
-	len = ft_strlen(str);
-	if (write(1, str, 1) == -1)
+	len = 0;
+	if (n < 0)
 	{
-		free(str);
-		return (-1);
+		if (write(1, "-", 1) == -1)
+			return (-1);
+		len++;
+		n = -n;
 	}
-	free(str);
+	num = (n % 10) + '0';
+	if (n > 9)
+	{
+		ret = ft_printf_int(n / 10);
+		if (ret == -1)
+			return (-1);
+		len += ret;
+	}
+	if (write(1, &num, 1) == -1)
+		return (-1);
+	len++;
 	return (len);
 }
 
 int	ft_printf_unsigned(unsigned int n)
 {
-	int	len;
-	int	ret;
+	int		len;
+	int		ret;
+	char	*base;
 
 	len = 0;
+	base = "0123456789";
 	if (n > 9)
 	{
 		ret = ft_printf_unsigned(n / 10);
@@ -43,7 +55,7 @@ int	ft_printf_unsigned(unsigned int n)
 			return (-1);
 		len += ret;
 	}
-	if (write(1, &"0123456789"[n % 10], 1) == -1)
+	if (write(1, &base[n % 10], 1) == -1)
 		return (-1);
 	len++;
 	return (len);

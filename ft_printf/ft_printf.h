@@ -16,7 +16,8 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
-# include "./Libft/libft.h"
+# include <stdint.h>
+# include "./libft/libft.h"
 
 int	ft_printf(const char *format, ...);
 int	ft_printf_char(char c);
@@ -24,6 +25,6 @@ int	ft_printf_str(const char *str);
 int	ft_printf_ptr(void *p);
 int	ft_printf_int(int n);
 int	ft_printf_unsigned(unsigned int n);
-int	ft_printf_hex(unsigned int n, char type);
+int	ft_printf_hex(unsigned long long n, char type);
 
 #endif
