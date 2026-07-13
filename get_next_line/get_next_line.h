@@ -6,7 +6,7 @@
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/30 13:35:03 by honam             #+#    #+#             */
-/*   Updated: 2026/07/04 16:19:00 by honam            ###   ########.fr       */
+/*   Updated: 2026/07/09 13:20:10 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 #endif

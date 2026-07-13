@@ -6,7 +6,7 @@
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:22:30 by honam             #+#    #+#             */
-/*   Updated: 2026/07/04 16:18:53 by honam            ###   ########.fr       */
+/*   Updated: 2026/07/10 19:34:04 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	unsigned int	i;
+	unsigned int	src_len;
+
+	src_len = 0;
+	while (src[src_len] != '\0')
+	{
+		src_len++;
+	}
+	if (size == 0)
+	{
+		return (src_len);
+	}
+	i = 0;
+	while (src[i] && i < size - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_len);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*new_str;
@@ -60,21 +84,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new_str);
 }
 
-char		*ft_strdup(char *s1)
+char	*ft_strdup(const char *s1)
 {
-	char	*result;
 	int		i;
+	int		size;
+	char	*dup;
 
-	i = ft_strlen(s1);
-	result = (char *)malloc(sizeof(char) * (i + 1));
-	if (!result)
-		return (0);
+	size = ft_strlen(s1);
+	dup = (char *)malloc(size + 1);
+	if (dup == NULL)
+		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (i < size)
 	{
-		result[i] = s1[i];
+		dup[i] = s1[i];
 		i++;
 	}
-	result[i] = '\0';
-	return (result);
+	dup[i] = '\0';
+	return (dup);
 }
