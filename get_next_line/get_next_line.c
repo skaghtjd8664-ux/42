@@ -30,7 +30,6 @@ char	*read_line(int fd, char *buf, char *backup)
 		temp = backup;
 		backup = ft_strjoin(temp, buf);
 		free(temp);
-		temp = NULL;
 		if (!backup)
 			return (NULL);
 		if (ft_strchr(buf, '\n'))
