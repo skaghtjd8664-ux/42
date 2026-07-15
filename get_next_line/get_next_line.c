@@ -6,7 +6,7 @@
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:26:45 by honam             #+#    #+#             */
-/*   Updated: 2026/07/09 16:13:49 by honam            ###   ########.fr       */
+/*   Updated: 2026/07/15 17:37:04 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,21 @@ char	*read_line(int fd, char *buf, char *backup)
 	{
 		read_byte = read(fd, buf, BUFFER_SIZE);
 		if (read_byte == -1)
+		{
+			free(backup);
 			return (NULL);
+		}
 		else if (read_byte == 0)
 			break ;
 		if (!backup)
 			backup = ft_strdup("");
+		if (!backup)
+			return (NULL);
 		buf[read_byte] = '\0';
 		temp = backup;
 		backup = ft_strjoin(temp, buf);
 		free(temp);
-		if (!backup)
-			return (NULL);
-		if (ft_strchr(buf, '\n'))
+		if (!backup || ft_strchr(buf, '\n'))
 			break ;
 	}
 	return (backup);
@@ -92,12 +95,21 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buf)
+	{
+		free(backup);
+		return (NULL);
+	}
 	backup = read_line(fd, buf, backup);
 	free(buf);
-	buf = NULL;
 	if (!backup)
 		return (NULL);
 	line = extract(backup);
+	if (!line)
+	{
+		free(backup);
+		backup = NULL;
+	}
 	backup = update_backup(backup);
 	return (line);
 }
