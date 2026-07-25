@@ -6,18 +6,29 @@
 /*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/19 15:08:15 by honam             #+#    #+#             */
-/*   Updated: 2026/07/21 18:03:01 by honam            ###   ########.fr       */
+/*   Updated: 2026/07/22 14:30:44 by honam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	set_index(int value)
+int	set_index(t_stack *stack, int value, int size)
 {
+	t_node	*current;
 	int		i;
 
+	if (!stack || stack->size == 0)
+		return (-1);
+	current = stack->head;
 	i = -1;
-	return (0);
+	while (i < size)
+	{
+		if (current->value == value)
+			return (i);
+		current = current->next;
+		i++;
+	}
+	return (-1);
 }
 
 t_node	*create_node(int value)
@@ -28,7 +39,7 @@ t_node	*create_node(int value)
 	if (!node)
 		return (NULL);
 	node->value = value;
-	node->index = set_index(value);
+	node->index = -1;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
