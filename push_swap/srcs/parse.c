@@ -6,26 +6,32 @@
 /*   By: dosong <dosong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 15:03:06 by dosong            #+#    #+#             */
-/*   Updated: 2026/07/29 12:16:17 by dosong           ###   ########.fr       */
+/*   Updated: 2026/08/05 11:11:34 by dosong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_flag(char *str)
+int	check_bench_flag(int argc, char **argv)
 {
-	return (ft_strncmp(str, "--", 2) == 0);
+	int	i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (ft_strncmp(argv[i], "--bench", 8) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-static char	*set_strategy(char *flag)
+static int	is_strategy_flag(char *flag)
 {
-	if (ft_strncmp(flag, "--simple", 9) == 0
-		|| ft_strncmp(flag, "--medium", 9) == 0
-		|| ft_strncmp(flag, "--complex", 10) == 0
-		|| ft_strncmp(flag, "--adaptive", 11) == 0)
-		return (flag);
-	print_error_and_exit();
-	return (NULL);
+	return (ft_strncmp(flag, "--simple", 9) == 0 \
+			|| ft_strncmp(flag, "--medium", 9) == 0 \
+			|| ft_strncmp(flag, "--complex", 10) == 0 \
+			|| ft_strncmp(flag, "--adaptive", 11) == 0);
 }
 
 t_stack	*parse(int argc, char **argv, char **strategy)
@@ -35,12 +41,16 @@ t_stack	*parse(int argc, char **argv, char **strategy)
 
 	*strategy = "--adaptive";
 	i = 1;
-	if (is_flag(argv[i]))
+	while (i < argc && (is_strategy_flag(argv[i]) || \
+			ft_strncmp(argv[i], "--bench", 8) == 0))
 	{
-		*strategy = set_strategy(argv[i]);
-		i = 2;
+		if (is_strategy_flag(argv[i]))
+			*strategy = argv[i];
+		i++;
 	}
 	stack_a = init_stack();
+	if (!stack_a)
+		print_error_and_exit(NULL, NULL);
 	check_arg(argc - (i - 1), argv + (i - 1), stack_a);
 	return (stack_a);
 }

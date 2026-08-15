@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dosong <dosong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 12:51:36 by honam             #+#    #+#             */
-/*   Updated: 2026/07/21 13:40:04 by honam            ###   ########.fr       */
+/*   Updated: 2026/08/03 15:44:17 by dosong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	rotate(t_stack *stack)
 void	ra(t_stack *stack_a, int is_silent)
 {
 	rotate(stack_a);
+	if (stack_a->bench)
+	{
+		stack_a->bench->ra_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	if (is_silent == PRINT)
 		write(1, "ra\n", 3);
 }
@@ -30,13 +35,23 @@ void	ra(t_stack *stack_a, int is_silent)
 void	rb(t_stack *stack_b, int is_silent)
 {
 	rotate(stack_b);
+	if (stack_b->bench)
+	{
+		stack_b->bench->rb_cnt++;
+		stack_b->bench->total_ops++;
+	}
 	if (is_silent == PRINT)
 		write(1, "rb\n", 3);
 }
 
 void	rr(t_stack *stack_a, t_stack *stack_b)
 {
-	ra(stack_a, SILENT);
-	rb(stack_b, SILENT);
+	rotate(stack_a);
+	rotate(stack_b);
+	if (stack_a->bench)
+	{
+		stack_a->bench->rr_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	write(1, "rr\n", 3);
 }

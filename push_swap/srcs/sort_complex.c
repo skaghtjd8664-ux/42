@@ -6,7 +6,7 @@
 /*   By: dosong <dosong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 15:21:02 by dosong            #+#    #+#             */
-/*   Updated: 2026/07/29 12:13:53 by dosong           ###   ########.fr       */
+/*   Updated: 2026/08/03 14:42:36 by dosong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,28 @@ static int	get_max_bits(int size)
 	return (bits);
 }
 
+static void	execute_radix_pass(t_stack *a, t_stack *b, int bit)
+{
+	int	i;
+	int	size;
+
+	i = 0;
+	size = a->size;
+	while (i++ < size)
+	{
+		if ((a->head->index >> bit & 1) == 0)
+			pb(a, b);
+		else
+			ra(a, PRINT);
+	}
+	while (b->size > 0)
+		pa(a, b);
+}
+
 void	sort_complex(t_stack *a, t_stack *b)
 {
 	int	bits;
 	int	max_bits;
-	int	i;
-	int	size;
 
 	if (a->size <= 5)
 	{
@@ -64,20 +80,10 @@ void	sort_complex(t_stack *a, t_stack *b)
 	}
 	set_index(a);
 	max_bits = get_max_bits(a->size);
-	size = a->size;
 	bits = 0;
 	while (bits < max_bits)
 	{
-		i = 0;
-		while (i++ < size)
-		{
-			if ((a->head->index >> bits & 1) == 0)
-				pb(a, b);
-			else
-				ra(a, PRINT);
-		}
-		while (b->size > 0)
-			pa(a, b);
+		execute_radix_pass(a, b, bits);
 		bits++;
 	}
 }

@@ -4,17 +4,17 @@
   
 ## 설명 (Description)
  
-`push_swap`은 **제약 조건 하에서의 정렬**을 다루는 42 알고리즘 과제입니다.
+`push_swap`은 **제약 조건 하에서의 정렬**을 다루는 알고리즘 과제입니다.
 중복 없는 무작위 정수 목록이 스택 `a`에 주어지고, 스택 `b`는 비어 있는 상태에서
 시작합니다. 사용할 수 있는 연산은 `sa`, `sb`, `ss`, `pa`, `pb`, `ra`, `rb`,
 `rr`, `rra`, `rrb`, `rrr` 로 제한됩니다. 목표는 이 연산들을 이용해
 **최소한의 연산 횟수**로 스택 `a`를 오름차순으로 정렬하는 시퀀스를
-표준 출력(stdout)에 출력하는 것입니다.
+표준 출력에 출력하는 것입니다.
  
-이번 과제 버전은 단순히 "정렬만 하면 끝"이 아니라, 다음을 추가로 요구합니다:
+과제 요구 사항:
  
 - 어떤 연산도 수행하기 **전에** 입력의 **무질서도(disorder)** 를 계산해야 합니다
-  (0 = 이미 정렬됨, 1 = 최악의 순서).
+  (0% = 이미 정렬됨, 100% = 최악의 순서).
 - **네 가지 서로 다른 정렬 전략**을 구현해야 하며, 각 전략은
   *push_swap 연산 모델* 상에서 서로 다른 복잡도 클래스를 목표로 합니다
   (여기서 복잡도는 배열 기반 알고리즘의 이론적 복잡도가 아니라,
@@ -32,10 +32,10 @@
 ### 컴파일
  
 ```bash
-make        # push_swap 빌드
-make clean  # 오브젝트 파일 삭제
-make fclean # 오브젝트 파일 및 실행 파일 삭제
-make re     # fclean + all
+make
+make clean
+make fclean
+make re
 ```
  
 `Makefile`은 `cc -Wall -Wextra -Werror` 플래그로 컴파일하며, 불필요한
@@ -63,7 +63,7 @@ ARG="4 67 3 87 23"; ./push_swap --complex $ARG | ./checker_linux $ARG
 ./push_swap --bench 2 1 3 6 5 8 2> bench.txt
 ```
  
-## 알고리즘 및 복잡도 근거 (Algorithms & Complexity Justification)
+## 알고리즘 (Algorithms)
  
 ### 무질서도(disorder) 지표
  
@@ -76,7 +76,7 @@ disorder = (i < j 이면서 a[i] > a[j]인 쌍의 개수) / (n * (n - 1) / 2)
 ```
  
 - `disorder == 0` → 이미 정렬됨
-- `disorder == 1` → 역순 정렬(최악의 경우)
+- `disorder == 100` → 역순 정렬(최악의 경우)
 이 계산 자체는 C 코드 상 O(n^2)이지만, 이는 정렬을 시작하기 *전*에 한 번
 수행하는 "측정" 단계이므로 push_swap 연산 횟수에는 포함되지 않습니다.
  
@@ -95,12 +95,12 @@ disorder = (i < j 이면서 a[i] > a[j]인 쌍의 개수) / (n * (n - 1) / 2)
 4. 마지막으로 최솟값을 top으로 회전시켜, 원형 스택이 head부터 오름차순으로
    읽히도록 맞춥니다.
 `n`번의 재삽입마다 O(n)의 탐색(`find_insert_pos`)과 최악의 경우 O(n)의
-회전이 필요하므로, 전체적으로 **O(n²)** 개의 연산이 생성됩니다. 이는
+회전이 필요하므로, 전체적으로 **O(n^2)** 개의 연산이 생성됩니다. 이는
 고전적인 삽입 정렬의 연산 수와 일치합니다.
  
 ### 2. Medium 전략 — O(n√n) — `--medium` (`sort_medium.c`)
  
-**청크/범위(range) 기반 분할 전략**입니다:
+**청크 기반(Chunk-based) 분할 전략**입니다:
  
 1. `get_range(size)`는 청크 폭을 대략 `1.4 * sqrt(size) + 1`로 정합니다.
 2. `push_by_hourglass`는 스택 `a`를 순회하며, 각 원소에 대해 `a`와 `b`를
@@ -141,9 +141,9 @@ disorder = (i < j 이면서 a[i] > a[j]인 쌍의 개수) / (n * (n - 1) / 2)
  
 | Disorder 범위 | 구간 | 호출되는 전략 | 목표 복잡도 |
 |---|---|---|---|
-| `< 0.20` | 낮음(Low) | `sort_simple` | O(n^2) |
-| `0.20 – 0.49` | 중간(Medium) | `sort_medium` | O(n√n) |
-| `≥ 0.50` | 높음(High) | `sort_complex` | O(n log n) |
+| `< 20` | 낮음(Low) | `sort_simple` | O(n^2) |
+| `20 – 49` | 중간(Medium) | `sort_medium` | O(n√n) |
+| `≥ 50` | 높음(High) | `sort_complex` | O(n log n) |
  
 이 두 임계값(`0.2`, `0.5`)은 자체 벤치마킹을 통해 도출한 경험적 값이
 아니라, 과제 스펙(VI.3.3)의 구간표에서 직접 명시한 값입니다. 즉 adaptive
@@ -151,8 +151,10 @@ disorder = (i < j 이면서 a[i] > a[j]인 쌍의 개수) / (n * (n - 1) / 2)
 각 전략은 해당 구간에서 요구되는 복잡도 상한을 개별적으로 만족합니다.
  
 > **참고:** `size <= 5`인 경우 `sort_medium`과 `sort_complex` 모두
-> `sort_simple`로 대체(fallback)됩니다. 이 정도 크기에서는 청크 분할이나
+> `sort_simple`로 대체됩니다. 이 정도 크기에서는 청크 분할이나
 > radix 비트 패스의 고정 오버헤드가 이득이 되지 않으며, `sort_simple`의
 > 2개/3개 원소에 대한 하드코딩된 처리가 이미 최적이기 때문입니다.
 
 ## 참고 자료 (Resources)
+
+AI Tool Assistance: 본 README.md 문서 작성 및 구조화 과정에서 AI Assistant의 도움을 받았습니다.

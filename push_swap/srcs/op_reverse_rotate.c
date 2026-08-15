@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_reverse_rotate.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dosong <dosong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:06:09 by honam             #+#    #+#             */
-/*   Updated: 2026/07/21 13:40:17 by honam            ###   ########.fr       */
+/*   Updated: 2026/08/03 15:45:55 by dosong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	reverse_rotate(t_stack *stack)
 void	rra(t_stack *stack_a, int is_silent)
 {
 	reverse_rotate(stack_a);
+	if (stack_a->bench)
+	{
+		stack_a->bench->rra_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	if (is_silent == PRINT)
 		write(1, "rra\n", 4);
 }
@@ -30,13 +35,23 @@ void	rra(t_stack *stack_a, int is_silent)
 void	rrb(t_stack *stack_b, int is_silent)
 {
 	reverse_rotate(stack_b);
+	if (stack_b->bench)
+	{
+		stack_b->bench->rrb_cnt++;
+		stack_b->bench->total_ops++;
+	}
 	if (is_silent == PRINT)
 		write(1, "rrb\n", 4);
 }
 
 void	rrr(t_stack *stack_a, t_stack *stack_b)
 {
-	rra(stack_a, SILENT);
-	rrb(stack_b, SILENT);
+	reverse_rotate(stack_a);
+	reverse_rotate(stack_b);
+	if (stack_a->bench)
+	{
+		stack_a->bench->rrr_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	write(1, "rrr\n", 4);
 }

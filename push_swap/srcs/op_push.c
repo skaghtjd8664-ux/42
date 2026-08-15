@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: honam <honam@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dosong <dosong@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 12:14:23 by honam             #+#    #+#             */
-/*   Updated: 2026/07/21 12:49:52 by honam            ###   ########.fr       */
+/*   Updated: 2026/08/04 14:09:30 by dosong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	push(t_stack *dest, t_stack *src)
 {
 	t_node	*temp;
 
-	if (!dest || src->size == 0 || !src)
+	if (!dest || !src || src->size == 0)
 		return ;
 	temp = src->head;
 	if (src->size == 1)
@@ -57,11 +57,21 @@ void	push(t_stack *dest, t_stack *src)
 void	pa(t_stack *stack_a, t_stack *stack_b)
 {
 	push(stack_a, stack_b);
+	if (stack_a->bench)
+	{
+		stack_a->bench->pa_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	write(1, "pa\n", 3);
 }
 
 void	pb(t_stack *stack_a, t_stack *stack_b)
 {
 	push(stack_b, stack_a);
+	if (stack_a->bench)
+	{
+		stack_a->bench->pb_cnt++;
+		stack_a->bench->total_ops++;
+	}
 	write(1, "pb\n", 3);
 }
