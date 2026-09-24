@@ -14,6 +14,12 @@ if __name__ == "__main__":
               Plant("Cactus", 5.0, 90), 
               Plant("Sunflower", 80.0, 45), 
               Plant("Fern", 15.0, 120)]
+<<<<<<< HEAD
     for plants in plants:
         print("Created: ", end="")
         plants.show()
+=======
+    for plant in plants:
+        print("Created: ", end="")
+        plant.show()
+>>>>>>> cf50b79 (finish py02)

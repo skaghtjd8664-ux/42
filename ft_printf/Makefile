@@ -7,7 +7,7 @@ RM          = rm -f
 LIBFT_DIR   = ./libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
-SRCS        = ft_printf.c ft_printf_nbr.c ft_printf_char.c ft_printf_hex.c
+SRCS        = ft_printf.c ft_printf_utils.c
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)

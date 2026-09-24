@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 def input_temperature(temp_str: str) -> int:
     return int(temp_str)
 
 
+=======
+def input_temperature(temp_str : str) -> int:
+    return int(temp_str)
+
+>>>>>>> cf50b79 (finish py02)
 def test_temperature() -> None:
     print("=== Garden Temperature ===")
     print("")
@@ -24,6 +30,11 @@ def test_temperature() -> None:
 
     print("All tests completed - program didn't crash!")
 
+<<<<<<< HEAD
 
 if __name__ == "__main__":
     test_temperature()
+=======
+if __name__ == "__main__":
+    test_temperature()
+>>>>>>> cf50b79 (finish py02)
